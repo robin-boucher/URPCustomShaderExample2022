@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: URPCustomerShaderExample2022
+  productName: URPCustomShaderExample2022URPCustom
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -154,7 +154,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.DefaultCompany.URPCustomerShaderExample2022
+    Standalone: com.DefaultCompany.URPCustomShaderExample2022
   buildNumber:
     Standalone: 0
     VisionOS: 0
@@ -763,14 +763,14 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: URPCustomerShaderExample2022
+  metroPackageName: URPCustomShaderExample2022
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: URPCustomerShaderExample2022
+  metroApplicationDescription: URPCustomShaderExample2022
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0

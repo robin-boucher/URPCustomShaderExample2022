@@ -15,7 +15,6 @@ Scenes
 
 Shaders
 - Assets/Shaders/Sample-Lit.shader: Example custom shader used in the sample scenes.  It is a basic lit shader which includes the following features:
---- Shadow casting/receiving
 --- SRP Batcher compatible
 --- Forward, Forward+, and Deferred renderer support
 --- Rendering Layers support
