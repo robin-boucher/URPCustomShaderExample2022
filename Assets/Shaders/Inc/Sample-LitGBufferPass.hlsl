@@ -160,7 +160,7 @@ FragmentOutput GBuffer(InputData inputData, SurfaceData surfaceData)
 
     // GI + Emission
     Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, inputData.shadowMask);
-    MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+    MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
     half3 giEmission = (inputData.bakedGI * surfaceData.albedo) + surfaceData.emission;
 
     // GBuffer0
@@ -184,10 +184,10 @@ FragmentOutput GBuffer(InputData inputData, SurfaceData surfaceData)
     output.GBUFFER_SHADOWMASK = inputData.shadowMask;
     #endif
 
-    // GBUFFER_LIGHT_LAYERS (light layer)
-    #ifdef _LIGHT_LAYERS
+    // GBUFFER_LIGHT_LAYERS (rendering layer)
+    #ifdef _WRITE_RENDERING_LAYERS
     uint renderingLayer = GetMeshRenderingLayer();
-    output.GBUFFER_LIGHT_LAYERS = float4((renderingLayer & 0x000000FF) / 255.0, 0.0, 0.0, 0.0);
+    output.GBUFFER_LIGHT_LAYERS = float4(EncodeMeshRenderingLayer(renderingLayer), 0, 0, 0);
     #endif
 
     // GBUFFER_OPTIONAL_SLOT_1 (depth as color if Native Render Pass is enabled)
@@ -251,6 +251,7 @@ FragmentOutput LitGBufferFrag(Varyings input)
     // Built-in lighting functions can be found in Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl
     // Construct InputData struct
     InputData inputData = (InputData)0;
+    inputData.positionCS = input.positionCS;
     inputData.positionWS = input.positionWS;
     inputData.normalWS = normalWS;
     inputData.viewDirectionWS = normalize(GetWorldSpaceViewDir(input.positionWS));

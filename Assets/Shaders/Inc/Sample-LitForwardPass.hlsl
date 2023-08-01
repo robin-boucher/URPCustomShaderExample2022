@@ -151,16 +151,17 @@ Varyings LitForwardVert(Attributes input)
     // Get rendering layer if feature is enabled
     uint renderingLayer = GetMeshRenderingLayer();
 #endif
+
     half3 vertexLight = 0;
     // Loop through additional lights to get vertex lighting
     uint additionalLightCount = GetAdditionalLightsCount();
-    for (int lightIndex = 0; lightIndex < additionalLightCount; ++lightIndex)
+    for (uint lightIndex = 0; lightIndex < additionalLightCount; lightIndex++)
     {
         Light light = GetAdditionalLight(lightIndex, positionWS);
 
 #if _LIGHT_LAYERS
         // If rendering layers are enabled, only process light if renderer's layer is included
-        if (IsMatchingLightLayer(light.layerMask, renderingLayer)){
+        if (IsMatchingLightLayer(light.layerMask, renderingLayer))
 #endif
         {
             vertexLight += LightingDiffuse(light, normalWS);
@@ -215,7 +216,7 @@ half4 Lighting(InputData inputData, SurfaceData surfaceData)
 #ifdef _ADDITIONAL_LIGHTS
     // In URP, additional lights are handled in same pass with loop
 
-    #if USE_FORWARD_PLUS
+    #if USE_FORWARD_PLUS // (USE_FORWARD_PLUS is defined when _FORWARD_PLUS keyword is enabled)
     // Loop through additional directional lights used Forward+
     for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
     {
@@ -369,6 +370,7 @@ half4 LitForwardFrag(Varyings input) : SV_Target0
     // Built-in lighting functions can be found in Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl
     // Construct InputData struct
     InputData inputData = (InputData)0;
+    inputData.positionCS = input.positionCS;
     inputData.positionWS = input.positionWS;
     inputData.normalWS = normalWS;
     inputData.viewDirectionWS = normalize(GetWorldSpaceViewDir(input.positionWS));

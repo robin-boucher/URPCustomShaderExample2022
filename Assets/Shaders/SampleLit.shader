@@ -61,7 +61,7 @@ Shader "Sample/Lit"
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS  // Additional light support (includes vertex lighting option)
             #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS   // Additional light shadow support
             #pragma multi_compile_fragment _ _SHADOWS_SOFT               // Soft shadow support
-            #pragma multi_compile _ _LIGHT_LAYERS                        // Light Layer support (fragment and vertex)
+            #pragma multi_compile _ _LIGHT_LAYERS                        // Light Layer support (fragment and vertex; use multi_compile_fragment if not using vertex lights)
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX // SH evaluation mode
             // For lightmaps if enabled
             #pragma multi_compile _ LIGHTMAP_ON
@@ -117,10 +117,8 @@ Shader "Sample/Lit"
             // Keywords
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN // Main light shadows
             #pragma multi_compile _ SHADOWS_SHADOWMASK                  // Shadow mask
-            #pragma multi_compile _ _ADDITIONAL_LIGHTS                  // Additional light support (includes vertex lighting option)
-            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS  // Additional light shadow support
             #pragma multi_compile_fragment _ _SHADOWS_SOFT              // Soft shadow support
-            #pragma multi_compile _ _LIGHT_LAYERS              // Light Layer support
+            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS    // Rendering layers support
             // For lightmaps if enabled
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED                       
