@@ -118,7 +118,6 @@ Shader "Sample/Lit"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN // Main light shadows
             #pragma multi_compile _ SHADOWS_SHADOWMASK                  // Shadow mask
             #pragma multi_compile_fragment _ _SHADOWS_SOFT              // Soft shadow support
-            #pragma multi_compile_fragment _ _WRITE_RENDERING_LAYERS    // Rendering layers support
             // For lightmaps if enabled
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED                       
@@ -126,7 +125,7 @@ Shader "Sample/Lit"
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
             // For LOD Cross Fade
             #pragma multi_compile_fragment _ LOD_FADE_CROSSFADE
-            // DBuffer (e.g. for projecting decals)
+            // DBuffer (for receiving decals)
             #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
             // Deferred renderer specific keywords
             #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT  // Used for normal encoding format from Accurate GBuffer Normals option
@@ -139,6 +138,8 @@ Shader "Sample/Lit"
 
             // URP core include
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            // Required for rendering layers
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
             // Common properties
             #include "Inc/Sample-LitProperties.hlsl"
