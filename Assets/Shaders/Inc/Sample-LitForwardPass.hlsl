@@ -198,7 +198,6 @@ half4 Lighting(InputData inputData, SurfaceData surfaceData)
     half3 mainLightSpecularColor = 0;
     Light mainLight = GetMainLight(inputData.shadowCoord, inputData.positionWS, inputData.shadowMask);
     MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
-
 #if _LIGHT_LAYERS
     // If rendering layers are enabled, only process light if renderer's layer is included
     if (IsMatchingLightLayer(mainLight.layerMask, renderingLayer))
@@ -216,16 +215,36 @@ half4 Lighting(InputData inputData, SurfaceData surfaceData)
 #ifdef _ADDITIONAL_LIGHTS
     // In URP, additional lights are handled in same pass with loop
 
+    #if USE_FORWARD_PLUS
+    // Loop through additional directional lights used Forward+
+    for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+    {
+        FORWARD_PLUS_SUBTRACTIVE_LIGHT_CHECK
+
+        Light light = GetAdditionalLight(lightIndex, inputData.positionWS, inputData.shadowMask);
+
+#if _LIGHT_LAYERS
+        // If rendering layers are enabled, only process light if renderer's layer is included
+        if (IsMatchingLightLayer(light.layerMask, renderingLayer))
+#endif
+        {
+            // Diffuse
+            additionalLightsDiffuseColor += LightingDiffuse(light, inputData.normalWS) + inputData.vertexLighting;
+            // Specular
+            additionalLightsSpecularColor += LightingSpecular(light, inputData.normalWS, inputData.viewDirectionWS, surfaceData.specular, smoothness);
+        }
+    }
+    #endif
+
     // Additional light count (returns 0 in Forward+)
     uint additionalLightCount = GetAdditionalLightsCount();
 
-    // Macro provided by URP to loop through additional lights in
+    // Macro provided by URP to loop through additional lights (point, spot, etc) in
     // both standard Forward and Forward+ (additionalLightCount is only used in Forward)
     // Provides lightIndex to fetch light with GetAdditionalLight
     // Forward: Loops through found additional lights
     // Forward+: Iterates through clusters to fetch lights
     // See RealtimeLights.hlsl for implementation
-
     LIGHT_LOOP_BEGIN(additionalLightCount)
         Light light = GetAdditionalLight(lightIndex, inputData.positionWS, inputData.shadowMask);
 
