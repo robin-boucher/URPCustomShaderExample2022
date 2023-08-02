@@ -115,9 +115,9 @@ Shader "Sample/Lit"
             #pragma fragment LitGBufferFrag
 
             // Keywords
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN // Main light shadows
-            #pragma multi_compile _ SHADOWS_SHADOWMASK                  // Shadow mask
-            #pragma multi_compile_fragment _ _SHADOWS_SOFT              // Soft shadow support
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ SHADOWS_SHADOWMASK
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT
             // For lightmaps if enabled
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED                       
